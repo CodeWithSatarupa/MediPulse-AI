@@ -39,10 +39,8 @@ All project assets are consolidated into this single directory for full reproduc
 * **`/sql_queries`**: SQL scripts for Unity Catalog setup, analytics, and data auditing.
 * **`/images`**: Project assets including:
     * **Job Run Screenshot**: Proof of successful automated workflow.
-    * **Dashboard Screenshot**: Overview of clinical insights.
     * **Dashboard (PDF)**: Professional report export.
     * **Dashboard (JSON)**: Technical export for dashboard migration.
-* **`README.md`**: Project documentation and architecture overview.
 
 ---
 
