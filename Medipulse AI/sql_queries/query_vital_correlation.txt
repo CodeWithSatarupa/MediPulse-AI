@@ -1,0 +1,7 @@
+SELECT 
+  patient_age, 
+  heart_rate, 
+  CAST(is_readmitted AS STRING) AS status
+FROM 
+  medipulse_prod.silver.cleaned_encounters 
+LIMIT 2000;

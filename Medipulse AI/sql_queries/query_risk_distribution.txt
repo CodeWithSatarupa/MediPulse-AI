@@ -1,0 +1,7 @@
+SELECT 
+  age_group, 
+  count(*) AS alert_count 
+FROM 
+  medipulse_prod.silver.cleaned_encounters 
+GROUP BY 
+  1;

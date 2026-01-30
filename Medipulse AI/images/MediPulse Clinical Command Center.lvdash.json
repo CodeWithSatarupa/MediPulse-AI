@@ -1,0 +1,395 @@
+{
+  "datasets": [
+    {
+      "name": "87b5d0f0",
+      "displayName": "Untitled dataset",
+      "queryLines": [
+        ""
+      ]
+    },
+    {
+      "name": "c1fee6b7",
+      "displayName": "Untitled dataset",
+      "queryLines": [
+        "USE CATALOG `workspace`;\n",
+        "USE SCHEMA `default`;\n",
+        "\n",
+        "SELECT \n",
+        "  count(*) AS total_encounters,\n",
+        "  min(ingestion_time) AS pipeline_start\n",
+        "FROM \n",
+        "  medipulse_prod.bronze.raw_encounters;"
+      ]
+    },
+    {
+      "name": "3562cb7c",
+      "displayName": "Untitled dataset",
+      "queryLines": [
+        "USE CATALOG `workspace`;\n",
+        "USE SCHEMA `default`;\n",
+        "\n",
+        "-- Query 2: Patient Distribution by Age Group\n",
+        "-- This shows the variety of patients processed in the pipeline\n",
+        "SELECT \n",
+        "  age_group, \n",
+        "  count(*) AS alert_count \n",
+        "FROM \n",
+        "  medipulse_prod.silver.cleaned_encounters \n",
+        "GROUP BY \n",
+        "  1;"
+      ]
+    },
+    {
+      "name": "dacf10ae",
+      "displayName": "Untitled dataset",
+      "queryLines": [
+        "USE CATALOG `workspace`;\n",
+        "USE SCHEMA `default`;\n",
+        "\n",
+        "SELECT \n",
+        "  patient_age, \n",
+        "  heart_rate, \n",
+        "  CAST(is_readmitted AS STRING) AS status\n",
+        "FROM \n",
+        "  medipulse_prod.silver.cleaned_encounters \n",
+        "LIMIT 2000;"
+      ]
+    },
+    {
+      "name": "c052d5c6",
+      "displayName": "Untitled dataset",
+      "queryLines": [
+        "USE CATALOG `workspace`;\n",
+        "USE SCHEMA `default`;\n",
+        "\n",
+        "SELECT \n",
+        "  age_group, \n",
+        "  AVG(heart_rate) AS avg_heart_rate\n",
+        "FROM \n",
+        "  medipulse_prod.silver.cleaned_encounters \n",
+        "GROUP BY \n",
+        "  1"
+      ]
+    },
+    {
+      "name": "34a60a7e",
+      "displayName": "Untitled dataset",
+      "queryLines": [
+        "USE CATALOG `workspace`;\n",
+        "USE SCHEMA `default`;\n",
+        "\n",
+        "SELECT \n",
+        "  age_group, \n",
+        "  AVG(heart_rate) AS avg_heart_rate\n",
+        "FROM \n",
+        "  medipulse_prod.silver.cleaned_encounters \n",
+        "GROUP BY \n",
+        "  1"
+      ]
+    },
+    {
+      "name": "22011824",
+      "displayName": "Untitled dataset",
+      "queryLines": [
+        "USE CATALOG `workspace`;\n",
+        "USE SCHEMA `default`;\n",
+        "\n",
+        "SELECT \n",
+        "  age_group, \n",
+        "  AVG(heart_rate) AS avg_heart_rate\n",
+        "FROM \n",
+        "  medipulse_prod.silver.cleaned_encounters \n",
+        "GROUP BY \n",
+        "  1"
+      ]
+    }
+  ],
+  "pages": [
+    {
+      "name": "667298d7",
+      "displayName": "Dashboard",
+      "layout": [
+        {
+          "widget": {
+            "name": "de8a876d",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "c1fee6b7",
+                  "fields": [
+                    {
+                      "name": "total_encounters",
+                      "expression": "`total_encounters`"
+                    }
+                  ],
+                  "disaggregated": true
+                }
+              }
+            ],
+            "spec": {
+              "version": 2,
+              "widgetType": "counter",
+              "encodings": {
+                "value": {
+                  "fieldName": "total_encounters",
+                  "format": {
+                    "type": "number-plain",
+                    "abbreviation": "none",
+                    "decimalPlaces": {
+                      "type": "exact",
+                      "places": 0
+                    }
+                  },
+                  "rowNumber": 1
+                }
+              },
+              "frame": {
+                "title": "Total Ingestion Volume",
+                "showTitle": true,
+                "description": "Total Records Processed",
+                "showDescription": false
+              }
+            }
+          },
+          "position": {
+            "x": 0,
+            "y": 0,
+            "width": 3,
+            "height": 5
+          }
+        },
+        {
+          "widget": {
+            "name": "21ec394b",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "3562cb7c",
+                  "fields": [
+                    {
+                      "name": "sum(alert_count)",
+                      "expression": "SUM(`alert_count`)"
+                    },
+                    {
+                      "name": "age_group",
+                      "expression": "`age_group`"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              }
+            ],
+            "spec": {
+              "version": 3,
+              "widgetType": "pie",
+              "encodings": {
+                "angle": {
+                  "fieldName": "sum(alert_count)",
+                  "scale": {
+                    "type": "quantitative"
+                  },
+                  "displayName": "alert_count"
+                },
+                "color": {
+                  "fieldName": "age_group",
+                  "scale": {
+                    "type": "categorical"
+                  }
+                },
+                "label": {
+                  "show": true
+                }
+              },
+              "mark": {
+                "layout": "stack"
+              },
+              "frame": {
+                "title": "Patient Demographic Distribution",
+                "showTitle": true
+              }
+            }
+          },
+          "position": {
+            "x": 3,
+            "y": 0,
+            "width": 3,
+            "height": 5
+          }
+        },
+        {
+          "widget": {
+            "name": "01335ca4",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "dacf10ae",
+                  "fields": [
+                    {
+                      "name": "status",
+                      "expression": "`status`"
+                    },
+                    {
+                      "name": "patient_age",
+                      "expression": "`patient_age`"
+                    },
+                    {
+                      "name": "heart_rate",
+                      "expression": "`heart_rate`"
+                    }
+                  ],
+                  "disaggregated": true
+                }
+              }
+            ],
+            "spec": {
+              "version": 3,
+              "widgetType": "scatter",
+              "encodings": {
+                "x": {
+                  "fieldName": "patient_age",
+                  "scale": {
+                    "type": "quantitative"
+                  }
+                },
+                "y": {
+                  "fieldName": "heart_rate",
+                  "displayName": "heart_rate",
+                  "scale": {
+                    "type": "quantitative"
+                  }
+                },
+                "color": {
+                  "fieldName": "status",
+                  "scale": {
+                    "type": "categorical",
+                    "mappings": [
+                      {
+                        "value": "0",
+                        "color": {
+                          "themeColorType": "visualizationColors",
+                          "position": 1
+                        }
+                      },
+                      {
+                        "value": "1",
+                        "color": {
+                          "themeColorType": "visualizationColors",
+                          "position": 3
+                        }
+                      }
+                    ]
+                  }
+                }
+              },
+              "frame": {
+                "title": "Clinical Risk Correlation: Age vs. Heart Rate",
+                "showTitle": true
+              },
+              "mark": {
+                "layout": "layer"
+              }
+            }
+          },
+          "position": {
+            "x": 3,
+            "y": 5,
+            "width": 3,
+            "height": 7
+          }
+        },
+        {
+          "widget": {
+            "name": "2fe94226",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "22011824",
+                  "fields": [
+                    {
+                      "name": "age_group",
+                      "expression": "`age_group`"
+                    },
+                    {
+                      "name": "sum(avg_heart_rate)",
+                      "expression": "SUM(`avg_heart_rate`)"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              }
+            ],
+            "spec": {
+              "version": 3,
+              "widgetType": "bar",
+              "encodings": {
+                "x": {
+                  "fieldName": "age_group",
+                  "scale": {
+                    "type": "categorical"
+                  }
+                },
+                "y": {
+                  "fieldName": "sum(avg_heart_rate)",
+                  "displayName": "avg_heart_rate",
+                  "scale": {
+                    "type": "quantitative"
+                  }
+                },
+                "color": {
+                  "fieldName": "age_group",
+                  "scale": {
+                    "type": "categorical"
+                  }
+                }
+              },
+              "frame": {
+                "title": "Clinical Vital Averages by Demographic",
+                "showTitle": true
+              },
+              "mark": {
+                "colors": [
+                  "#077A9D"
+                ],
+                "layout": "group"
+              }
+            }
+          },
+          "position": {
+            "x": 0,
+            "y": 5,
+            "width": 3,
+            "height": 7
+          }
+        }
+      ],
+      "pageType": "PAGE_TYPE_CANVAS"
+    }
+  ],
+  "uiSettings": {
+    "theme": {
+      "canvasBackgroundColor": {
+        "light": "#FAFAFB",
+        "dark": "#1F272D"
+      },
+      "widgetBackgroundColor": {
+        "light": "#FFFFFF",
+        "dark": "#11171C"
+      },
+      "fontColor": {
+        "light": "#11171C",
+        "dark": "#E8ECF0"
+      },
+      "selectionColor": {
+        "light": "#2272B4",
+        "dark": "#8ACAFF"
+      },
+      "widgetHeaderAlignment": "LEFT",
+      "fontFamily": "Arial"
+    },
+    "applyModeEnabled": false
+  }
+}

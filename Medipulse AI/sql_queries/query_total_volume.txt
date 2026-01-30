@@ -1,0 +1,5 @@
+SELECT 
+  count(*) AS total_encounters,
+  min(ingestion_time) AS pipeline_start
+FROM 
+  medipulse_prod.bronze.raw_encounters;

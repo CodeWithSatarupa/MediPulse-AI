@@ -1,0 +1,2 @@
+
+DESCRIBE HISTORY medipulse_prod.gold.high_risk_alerts;
